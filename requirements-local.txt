@@ -1,0 +1,22 @@
+# Full local development dependencies (used on your Mac with PaddleOCR + Ollama)
+# Install with: pip install -r requirements-local.txt
+
+# OCR & Machine Learning Engine
+paddlepaddle>=2.5.0
+paddleocr>=2.6.0
+pypdfium2>=4.0.0
+
+# LLM Integration & Schema Validation
+ollama>=0.2.0
+groq>=0.9.0
+pydantic>=2.0.0
+
+# Web Backend API Framework
+fastapi>=0.100.0
+uvicorn>=0.20.0
+python-multipart>=0.0.6
+
+# Image Processing Helpers
+Pillow>=9.0.0
+opencv-python-headless>=4.5.0
+numpy>=1.21.0
