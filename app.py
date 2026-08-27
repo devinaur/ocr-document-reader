@@ -35,12 +35,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-UPLOAD_DIR = os.path.join(os.path.dirname(__file__), "documents", "uploads")
-os.makedirs(UPLOAD_DIR, exist_ok=True)
-
 # Detect mode at startup
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 CLOUD_MODE = bool(GROQ_API_KEY)
+
+# Vercel's filesystem is read-only; only /tmp is writable.
+UPLOAD_DIR = "/tmp/ocr_uploads"
+os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 if CLOUD_MODE:
     print("[App] ☁️  Cloud Mode: Groq Llama 3.2 Vision API active")

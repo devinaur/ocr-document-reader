@@ -108,7 +108,7 @@ analyzeBtn.addEventListener('click', async () => {
   // Show loading state
   analyzeBtn.disabled = true;
   loadingState.classList.remove('hidden');
-  loadingStatus.textContent = 'Step 1/2: Running PaddleOCR Text Detection...';
+  loadingStatus.textContent = '🔍 Analyzing document with AI Vision OCR...';
 
   const formData = new FormData();
   formData.append('file', selectedFile);
@@ -120,18 +120,29 @@ analyzeBtn.addEventListener('click', async () => {
       body: formData,
     });
 
-    loadingStatus.textContent = 'Step 2/2: Structuring with Llama 3.2 3B via Ollama...';
+    loadingStatus.textContent = '📦 Building structured JSON result...';
 
     if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.detail || 'Failed to analyze document.');
+      // Safely handle both JSON and plain-text error responses
+      const contentType = response.headers.get('content-type') || '';
+      let errorMessage = `Server error (${response.status})`;
+      try {
+        if (contentType.includes('application/json')) {
+          const errorData = await response.json();
+          errorMessage = errorData.detail || errorMessage;
+        } else {
+          const text = await response.text();
+          errorMessage = text.slice(0, 200) || errorMessage;
+        }
+      } catch (_) {}
+      throw new Error(errorMessage);
     }
 
     const data = await response.json();
     renderResults(data);
 
   } catch (err) {
-    alert(`❌ Analysis Error: ${err.message}`);
+    alert(`❌ Analysis Error:\n\n${err.message}`);
   } finally {
     loadingState.classList.add('hidden');
     analyzeBtn.disabled = false;
