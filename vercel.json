@@ -5,9 +5,18 @@
       "src": "frontend/package.json",
       "use": "@vercel/static-build",
       "config": { "distDir": "dist" }
+    },
+    {
+      "src": "app.py",
+      "use": "@vercel/python",
+      "config": { "requirementsFile": "requirements-cloud.txt" }
     }
   ],
   "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "app.py"
+    },
     {
       "src": "/(.*)",
       "dest": "frontend/$1"
