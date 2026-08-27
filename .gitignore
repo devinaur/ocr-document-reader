@@ -1,0 +1,19 @@
+# Python Virtual Environment & Bytecode
+venv/
+.venv/
+__pycache__/
+*.pyc
+
+# Node.js Dependencies & Build Output
+node_modules/
+frontend/dist/
+frontend/node_modules/
+
+# Environment Variables & Keys
+.env
+.env.local
+
+# System & Temp Files
+.DS_Store
+documents/uploads/*
+!documents/uploads/.gitkeep
